@@ -1,0 +1,653 @@
+package astro.practical.lib;
+
+import astro.practical.models.Aberration;
+import astro.practical.models.Angle;
+import astro.practical.models.EclipticCoordinates;
+import astro.practical.models.EquatorialCoordinatesHA;
+import astro.practical.models.EquatorialCoordinatesRA;
+import astro.practical.models.GalacticCoordinates;
+import astro.practical.models.HeliographicCoordinates;
+import astro.practical.models.HorizonCoordinates;
+import astro.practical.models.HourAngle;
+import astro.practical.models.Nutation;
+import astro.practical.models.RightAscension;
+import astro.practical.models.RightAscensionDeclination;
+import astro.practical.models.RiseSet;
+import astro.practical.models.SelenographicCoordinates1;
+import astro.practical.models.SelenographicCoordinates2;
+import astro.practical.types.AngleMeasure;
+import astro.practical.types.CoordinateType;
+import astro.practical.types.RiseSetStatus;
+
+public class Coordinates {
+    /**
+     * Convert an Angle (degrees, minutes, and seconds) to Decimal Degrees
+     */
+    public double angleToDecimalDegrees(double degrees, double minutes, double seconds) {
+        var a = Math.abs(seconds) / 60;
+        var b = (Math.abs(minutes) + a) / 60;
+        var c = Math.abs(degrees) + b;
+        var d = (degrees < 0 || minutes < 0 || seconds < 0) ? -c : c;
+
+        return d;
+    }
+
+    /**
+     * Convert Decimal Degrees to an Angle (degrees, minutes, and seconds)
+     */
+    public Angle decimalDegreesToAngle(double decimalDegrees) {
+        double unsignedDecimal = Math.abs(decimalDegrees);
+        double totalSeconds = unsignedDecimal * 3600;
+        double seconds2DP = Util.round(totalSeconds % 60, 2);
+        double correctedSeconds = (seconds2DP == 60) ? 0 : seconds2DP;
+        double correctedRemainder = (seconds2DP == 60) ? totalSeconds + 60 : totalSeconds;
+        double minutes = Math.floor(correctedRemainder / 60) % 60;
+        double unsignedDegrees = Math.floor(correctedRemainder / 3600);
+        double signedDegrees = (decimalDegrees < 0) ? -1 * unsignedDegrees : unsignedDegrees;
+
+        return new Angle(signedDegrees, minutes, Math.floor(correctedSeconds));
+    }
+
+    /**
+     * Convert Right Ascension to Hour Angle
+     * 
+     * @return tuple <double hourAngleHours, double hourAngleMinutes, double
+     *         hourAngleSeconds>
+     */
+    public HourAngle rightAscensionToHourAngle(double raHours, double raMinutes, double raSeconds, double lctHours,
+            double lctMinutes, double lctSeconds, boolean isDaylightSavings, int zoneCorrection, double localDay,
+            int localMonth, int localYear, double geographicalLongitude) {
+        int daylightSaving = (isDaylightSavings) ? 1 : 0;
+
+        double hourAngle = Macros.rightAscensionToHourAngle(raHours, raMinutes, raSeconds, lctHours, lctMinutes,
+                lctSeconds, daylightSaving, zoneCorrection, localDay, localMonth, localYear, geographicalLongitude);
+
+        int hourAngleHours = Macros.decimalHoursHour(hourAngle);
+        int hourAngleMinutes = Macros.decimalHoursMinute(hourAngle);
+        double hourAngleSeconds = Macros.decimalHoursSecond(hourAngle);
+
+        return new HourAngle(hourAngleHours, hourAngleMinutes, hourAngleSeconds);
+    }
+
+    /**
+     * Convert Hour Angle to Right Ascension
+     * 
+     * @return RightAscension
+     */
+    public RightAscension hourAngleToRightAscension(double hourAngleHours, double hourAngleMinutes,
+            double hourAngleSeconds, double lctHours, double lctMinutes, double lctSeconds, boolean isDaylightSaving,
+            int zoneCorrection, double localDay, int localMonth, int localYear, double geographicalLongitude) {
+        int daylightSaving = (isDaylightSaving) ? 1 : 0;
+
+        double rightAscension = Macros.hourAngleToRightAscension(hourAngleHours, hourAngleMinutes, hourAngleSeconds,
+                lctHours, lctMinutes, lctSeconds, daylightSaving, zoneCorrection, localDay, localMonth, localYear,
+                geographicalLongitude);
+
+        int rightAscensionHours = Macros.decimalHoursHour(rightAscension);
+        int rightAscensionMinutes = Macros.decimalHoursMinute(rightAscension);
+        double rightAscensionSeconds = Macros.decimalHoursSecond(rightAscension);
+
+        return new RightAscension(rightAscensionHours, rightAscensionMinutes, rightAscensionSeconds);
+    }
+
+    /**
+     * Convert Equatorial Coordinates to Horizon Coordinates
+     */
+    public HorizonCoordinates equatorialCoordinatesToHorizonCoordinates(double hourAngleHours, double hourAngleMinutes,
+            double hourAngleSeconds, double declinationDegrees, double declinationMinutes, double declinationSeconds,
+            double geographicalLatitude) {
+        double azimuthInDecimalDegrees = Macros.equatorialCoordinatesToAzimuth(hourAngleHours, hourAngleMinutes,
+                hourAngleSeconds, declinationDegrees, declinationMinutes, declinationSeconds, geographicalLatitude);
+
+        double altitudeInDecimalDegrees = Macros.equatorialCoordinatesToAltitude(hourAngleHours, hourAngleMinutes,
+                hourAngleSeconds, declinationDegrees, declinationMinutes, declinationSeconds, geographicalLatitude);
+
+        double azimuthDegrees = Macros.decimalDegreesDegrees(azimuthInDecimalDegrees);
+        double azimuthMinutes = Macros.decimalDegreesMinutes(azimuthInDecimalDegrees);
+        double azimuthSeconds = Macros.decimalDegreesSeconds(azimuthInDecimalDegrees);
+
+        double altitudeDegrees = Macros.decimalDegreesDegrees(altitudeInDecimalDegrees);
+        double altitudeMinutes = Macros.decimalDegreesMinutes(altitudeInDecimalDegrees);
+        double altitudeSeconds = Macros.decimalDegreesSeconds(altitudeInDecimalDegrees);
+
+        return new HorizonCoordinates(azimuthDegrees, azimuthMinutes, azimuthSeconds, altitudeDegrees, altitudeMinutes,
+                altitudeSeconds);
+    }
+
+    /**
+     * Convert Horizon Coordinates to Equatorial Coordinates
+     */
+    public EquatorialCoordinatesHA horizonCoordinatesToEquatorialCoordinates(double azimuthDegrees,
+            double azimuthMinutes, double azimuthSeconds, double altitudeDegrees, double altitudeMinutes,
+            double altitudeSeconds, double geographicalLatitude) {
+        double hourAngleInDecimalDegrees = Macros.horizonCoordinatesToHourAngle(azimuthDegrees, azimuthMinutes,
+                azimuthSeconds, altitudeDegrees, altitudeMinutes, altitudeSeconds, geographicalLatitude);
+
+        double declinationInDecimalDegrees = Macros.horizonCoordinatesToDeclination(azimuthDegrees, azimuthMinutes,
+                azimuthSeconds, altitudeDegrees, altitudeMinutes, altitudeSeconds, geographicalLatitude);
+
+        int hourAngleHours = Macros.decimalHoursHour(hourAngleInDecimalDegrees);
+        int hourAngleMinutes = Macros.decimalHoursMinute(hourAngleInDecimalDegrees);
+        double hourAngleSeconds = Macros.decimalHoursSecond(hourAngleInDecimalDegrees);
+
+        double declinationDegrees = Macros.decimalDegreesDegrees(declinationInDecimalDegrees);
+        double declinationMinutes = Macros.decimalDegreesMinutes(declinationInDecimalDegrees);
+        double declinationSeconds = Macros.decimalDegreesSeconds(declinationInDecimalDegrees);
+
+        return new EquatorialCoordinatesHA(hourAngleHours, hourAngleMinutes, hourAngleSeconds, declinationDegrees,
+                declinationMinutes, declinationSeconds);
+    }
+
+    /**
+     * Calculate Mean Obliquity of the Ecliptic for a Greenwich Date
+     */
+    public double meanObliquityOfTheEcliptic(double greenwichDay, int greenwichMonth, int greenwichYear) {
+        double jd = Macros.civilDateToJulianDate(greenwichDay, greenwichMonth, greenwichYear);
+        double mjd = jd - 2451545;
+        double t = mjd / 36525;
+        double de1 = t * (46.815 + t * (0.0006 - (t * 0.00181)));
+        double de2 = de1 / 3600;
+
+        return 23.439292 - de2;
+    }
+
+    /**
+     * Convert Ecliptic Coordinates to Equatorial Coordinates
+     */
+    public EquatorialCoordinatesRA eclipticCoordinateToEquatorialCoordinate(double eclipticLongitudeDegrees,
+            double eclipticLongitudeMinutes, double eclipticLongitudeSeconds, double eclipticLatitudeDegrees,
+            double eclipticLatitudeMinutes, double eclipticLatitudeSeconds, double greenwichDay, int greenwichMonth,
+            int greenwichYear) {
+        double eclonDeg = Macros.degreesMinutesSecondsToDecimalDegrees(eclipticLongitudeDegrees,
+                eclipticLongitudeMinutes, eclipticLongitudeSeconds);
+        double eclatDeg = Macros.degreesMinutesSecondsToDecimalDegrees(eclipticLatitudeDegrees,
+                eclipticLatitudeMinutes, eclipticLatitudeSeconds);
+        double eclonRad = Math.toRadians(eclonDeg);
+        double eclatRad = Math.toRadians(eclatDeg);
+        double obliqDeg = Macros.obliq(greenwichDay, greenwichMonth, greenwichYear);
+        double obliqRad = Math.toRadians(obliqDeg);
+        double sinDec = Math.sin(eclatRad) * Math.cos(obliqRad)
+                + Math.cos(eclatRad) * Math.sin(obliqRad) * Math.sin(eclonRad);
+        double decRad = Math.asin(sinDec);
+        double decDeg = Macros.wToDegrees(decRad);
+        double y = Math.sin(eclonRad) * Math.cos(obliqRad) - Math.tan(eclatRad) * Math.sin(obliqRad);
+        double x = Math.cos(eclonRad);
+        double raRad = Math.atan2(y, x);
+        double raDeg1 = Macros.wToDegrees(raRad);
+        double raDeg2 = raDeg1 - 360 * Math.floor(raDeg1 / 360);
+        double raHours = Macros.decimalDegreesToDegreeHours(raDeg2);
+
+        int outRAHours = Macros.decimalHoursHour(raHours);
+        int outRAMinutes = Macros.decimalHoursMinute(raHours);
+        double outRASeconds = Macros.decimalHoursSecond(raHours);
+        double outDecDegrees = Macros.decimalDegreesDegrees(decDeg);
+        double outDecMinutes = Macros.decimalDegreesMinutes(decDeg);
+        double outDecSeconds = Macros.decimalDegreesSeconds(decDeg);
+
+        return new EquatorialCoordinatesRA(outRAHours, outRAMinutes, outRASeconds, outDecDegrees, outDecMinutes,
+                outDecSeconds);
+    }
+
+    /**
+     * Convert Equatorial Coordinates to Ecliptic Coordinates
+     */
+    public EclipticCoordinates equatorialCoordinateToEclipticCoordinate(double raHours, double raMinutes,
+            double raSeconds, double decDegrees, double decMinutes, double decSeconds, double gwDay, int gwMonth,
+            int gwYear) {
+        double raDeg = Macros.degreeHoursToDecimalDegrees(Macros.hmsToDH(raHours, raMinutes, raSeconds));
+        double decDeg = Macros.degreesMinutesSecondsToDecimalDegrees(decDegrees, decMinutes, decSeconds);
+        double raRad = Math.toRadians(raDeg);
+        double decRad = Math.toRadians(decDeg);
+        double obliqDeg = Macros.obliq(gwDay, gwMonth, gwYear);
+        double obliqRad = Math.toRadians(obliqDeg);
+        double sinEclLat = Math.sin(decRad) * Math.cos(obliqRad)
+                - Math.cos(decRad) * Math.sin(obliqRad) * Math.sin(raRad);
+        double eclLatRad = Math.asin(sinEclLat);
+        double eclLatDeg = Macros.wToDegrees(eclLatRad);
+        double y = Math.sin(raRad) * Math.cos(obliqRad) + Math.tan(decRad) * Math.sin(obliqRad);
+        double x = Math.cos(raRad);
+        double eclLongRad = Math.atan2(y, x);
+        double eclLongDeg1 = Macros.wToDegrees(eclLongRad);
+        double eclLongDeg2 = eclLongDeg1 - 360 * Math.floor(eclLongDeg1 / 360);
+
+        double outEclLongDeg = Macros.decimalDegreesDegrees(eclLongDeg2);
+        double outEclLongMin = Macros.decimalDegreesMinutes(eclLongDeg2);
+        double outEclLongSec = Macros.decimalDegreesSeconds(eclLongDeg2);
+        double outEclLatDeg = Macros.decimalDegreesDegrees(eclLatDeg);
+        double outEclLatMin = Macros.decimalDegreesMinutes(eclLatDeg);
+        double outEclLatSec = Macros.decimalDegreesSeconds(eclLatDeg);
+
+        return new EclipticCoordinates(outEclLongDeg, outEclLongMin, outEclLongSec, outEclLatDeg, outEclLatMin,
+                outEclLatSec);
+    }
+
+    /**
+     * Convert Equatorial Coordinates to Galactic Coordinates
+     */
+    public GalacticCoordinates equatorialCoordinateToGalacticCoordinate(double raHours, double raMinutes,
+            double raSeconds, double decDegrees, double decMinutes, double decSeconds) {
+        double raDeg = Macros.degreeHoursToDecimalDegrees(Macros.hmsToDH(raHours, raMinutes, raSeconds));
+        double decDeg = Macros.degreesMinutesSecondsToDecimalDegrees(decDegrees, decMinutes, decSeconds);
+        double raRad = Math.toRadians(raDeg);
+        double decRad = Math.toRadians(decDeg);
+        double sinB = Math.cos(decRad) * Math.cos(Math.toRadians(27.4)) * Math.cos(raRad - Math.toRadians(192.25))
+                + Math.sin(decRad) * Math.sin(Math.toRadians(27.4));
+        double bRadians = Math.asin(sinB);
+        double bDeg = Macros.wToDegrees(bRadians);
+        double y = Math.sin(decRad) - sinB * Math.sin(Math.toRadians(27.4));
+        double x = Math.cos(decRad) * Math.sin(raRad - Math.toRadians(192.25)) * Math.cos(Math.toRadians(27.4));
+        double longDeg1 = Macros.wToDegrees(Math.atan2(y, x)) + 33;
+        double longDeg2 = longDeg1 - 360 * Math.floor(longDeg1 / 360);
+
+        double galLongDeg = Macros.decimalDegreesDegrees(longDeg2);
+        double galLongMin = Macros.decimalDegreesMinutes(longDeg2);
+        double galLongSec = Macros.decimalDegreesSeconds(longDeg2);
+        double galLatDeg = Macros.decimalDegreesDegrees(bDeg);
+        double galLatMin = Macros.decimalDegreesMinutes(bDeg);
+        double galLatSec = Macros.decimalDegreesSeconds(bDeg);
+
+        return new GalacticCoordinates(galLongDeg, galLongMin, galLongSec, galLatDeg, galLatMin, galLatSec);
+    }
+
+    /**
+     * Convert Galactic Coordinates to Equatorial Coordinates
+     */
+    public EquatorialCoordinatesRA galacticCoordinateToEquatorialCoordinate(double galLongDeg, double galLongMin,
+            double galLongSec, double galLatDeg, double galLatMin, double galLatSec) {
+        double glongDeg = Macros.degreesMinutesSecondsToDecimalDegrees(galLongDeg, galLongMin, galLongSec);
+        double glatDeg = Macros.degreesMinutesSecondsToDecimalDegrees(galLatDeg, galLatMin, galLatSec);
+        double glongRad = Math.toRadians(glongDeg);
+        double glatRad = Math.toRadians(glatDeg);
+        double sinDec = Math.cos(glatRad) * Math.cos(Math.toRadians(27.4)) * Math.sin(glongRad - Math.toRadians(33.0))
+                + Math.sin(glatRad) * Math.sin(Math.toRadians(27.4));
+        double decRadians = Math.asin(sinDec);
+        double decDeg = Macros.wToDegrees(decRadians);
+        double y = Math.cos(glatRad) * Math.cos(glongRad - Math.toRadians(33.0));
+        double x = Math.sin(glatRad) * Math.cos(Math.toRadians(27.4))
+                - Math.cos(glatRad) * Math.sin(Math.toRadians(27.4)) * Math.sin(glongRad - Math.toRadians(33.0));
+
+        double raDeg1 = Macros.wToDegrees(Math.atan2(y, x)) + 192.25;
+        double raDeg2 = raDeg1 - 360 * Math.floor(raDeg1 / 360);
+        double raHours1 = Macros.decimalDegreesToDegreeHours(raDeg2);
+
+        double raHours = Macros.decimalHoursHour(raHours1);
+        double raMinutes = Macros.decimalHoursMinute(raHours1);
+        double raSeconds = Macros.decimalHoursSecond(raHours1);
+        double decDegrees = Macros.decimalDegreesDegrees(decDeg);
+        double decMinutes = Macros.decimalDegreesMinutes(decDeg);
+        double decSeconds = Macros.decimalDegreesSeconds(decDeg);
+
+        return new EquatorialCoordinatesRA(raHours, raMinutes, raSeconds, decDegrees, decMinutes, decSeconds);
+    }
+
+    /**
+     * Calculate the angle between two celestial objects
+     */
+    public Angle angleBetweenTwoObjects(double raLong1HourDeg, double raLong1Min, double raLong1Sec, double decLat1Deg,
+            double decLat1Min, double decLat1Sec, double raLong2HourDeg, double raLong2Min, double raLong2Sec,
+            double decLat2Deg, double decLat2Min, double decLat2Sec, AngleMeasure hourOrDegree) {
+        double raLong1Decimal = (hourOrDegree == AngleMeasure.HOURS)
+                ? Macros.hmsToDH(raLong1HourDeg, raLong1Min, raLong1Sec)
+                : Macros.degreesMinutesSecondsToDecimalDegrees(raLong1HourDeg, raLong1Min, raLong1Sec);
+        double raLong1Deg = (hourOrDegree == AngleMeasure.HOURS)
+                ? Macros.degreeHoursToDecimalDegrees(raLong1Decimal)
+                : raLong1Decimal;
+
+        double raLong1Rad = Math.toRadians(raLong1Deg);
+        double decLat1Deg1 = Macros.degreesMinutesSecondsToDecimalDegrees(decLat1Deg, decLat1Min, decLat1Sec);
+        double decLat1Rad = Math.toRadians(decLat1Deg1);
+
+        double raLong2Decimal = (hourOrDegree == AngleMeasure.HOURS)
+                ? Macros.hmsToDH(raLong2HourDeg, raLong2Min, raLong2Sec)
+                : Macros.degreesMinutesSecondsToDecimalDegrees(raLong2HourDeg, raLong2Min, raLong2Sec);
+        double raLong2Deg = (hourOrDegree == AngleMeasure.HOURS)
+                ? Macros.degreeHoursToDecimalDegrees(raLong2Decimal)
+                : raLong2Decimal;
+        double raLong2Rad = Math.toRadians(raLong2Deg);
+        double decLat2Deg1 = Macros.degreesMinutesSecondsToDecimalDegrees(decLat2Deg, decLat2Min, decLat2Sec);
+        double decLat2Rad = Math.toRadians(decLat2Deg1);
+
+        double cosD = Math.sin(decLat1Rad) * Math.sin(decLat2Rad)
+                + Math.cos(decLat1Rad) * Math.cos(decLat2Rad) * Math.cos(raLong1Rad - raLong2Rad);
+        double dRad = Math.acos(cosD);
+        double dDeg = Macros.wToDegrees(dRad);
+
+        double angleDeg = Macros.decimalDegreesDegrees(dDeg);
+        double angleMin = Macros.decimalDegreesMinutes(dDeg);
+        double angleSec = Macros.decimalDegreesSeconds(dDeg);
+
+        return new Angle(angleDeg, angleMin, angleSec);
+    }
+
+    /**
+     * Calculate rising and setting times for an object.
+     */
+    public RiseSet risingAndSetting(double raHours, double raMinutes, double raSeconds, double decDeg, double decMin,
+            double decSec, double gwDateDay, int gwDateMonth, int gwDateYear, double geogLongDeg, double geogLatDeg,
+            double vertShiftDeg) {
+        double raHours1 = Macros.hmsToDH(raHours, raMinutes, raSeconds);
+        double decRad = Math.toRadians(Macros.degreesMinutesSecondsToDecimalDegrees(decDeg, decMin, decSec));
+        double verticalDisplRadians = Math.toRadians(vertShiftDeg);
+        double geoLatRadians = Math.toRadians(geogLatDeg);
+        double cosH = -(Math.sin(verticalDisplRadians) + Math.sin(geoLatRadians) * Math.sin(decRad))
+                / (Math.cos(geoLatRadians) * Math.cos(decRad));
+        double hHours = Macros.decimalDegreesToDegreeHours(Macros.wToDegrees(Math.acos(cosH)));
+        double lstRiseHours = (raHours1 - hHours) - 24 * Math.floor((raHours1 - hHours) / 24);
+        double lstSetHours = (raHours1 + hHours) - 24 * Math.floor((raHours1 + hHours) / 24);
+        double aDeg = Macros
+                .wToDegrees(Math.acos((Math.sin(decRad) + Math.sin(verticalDisplRadians) * Math.sin(geoLatRadians))
+                        / (Math.cos(verticalDisplRadians) * Math.cos(geoLatRadians))));
+        double azRiseDeg = aDeg - 360 * Math.floor(aDeg / 360);
+        double azSetDeg = (360 - aDeg) - 360 * Math.floor((360 - aDeg) / 360);
+        double utRiseHours1 = Macros.greenwichSiderealTimeToUniversalTime(
+                Macros.localSiderealTimeToGreenwichSiderealTime(lstRiseHours, 0, 0, geogLongDeg), 0, 0, gwDateDay,
+                gwDateMonth, gwDateYear);
+        double utSetHours1 = Macros.greenwichSiderealTimeToUniversalTime(
+                Macros.localSiderealTimeToGreenwichSiderealTime(lstSetHours, 0, 0, geogLongDeg), 0, 0, gwDateDay,
+                gwDateMonth, gwDateYear);
+        double utRiseAdjustedHours = utRiseHours1 + 0.008333;
+        double utSetAdjustedHours = utSetHours1 + 0.008333;
+
+        RiseSetStatus riseSetStatus = RiseSetStatus.OK;
+        if (cosH > 1)
+            riseSetStatus = RiseSetStatus.NEVER_RISES;
+        if (cosH < -1)
+            riseSetStatus = RiseSetStatus.CIRCUMPOLAR;
+
+        var utRiseHour = (riseSetStatus == RiseSetStatus.OK) ? Macros.decimalHoursHour(utRiseAdjustedHours) : 0;
+        var utRiseMin = (riseSetStatus == RiseSetStatus.OK) ? Macros.decimalHoursMinute(utRiseAdjustedHours) : 0;
+        var utSetHour = (riseSetStatus == RiseSetStatus.OK) ? Macros.decimalHoursHour(utSetAdjustedHours) : 0;
+        var utSetMin = (riseSetStatus == RiseSetStatus.OK) ? Macros.decimalHoursMinute(utSetAdjustedHours) : 0;
+        var azRise = (riseSetStatus == RiseSetStatus.OK) ? Util.round(azRiseDeg, 2) : 0;
+        var azSet = (riseSetStatus == RiseSetStatus.OK) ? Util.round(azSetDeg, 2) : 0;
+
+        return new RiseSet(riseSetStatus, utRiseHour, utRiseMin, utSetHour, utSetMin, azRise, azSet);
+    }
+
+    /**
+     * Calculate precession (corrected coordinates between two epochs)
+     */
+    public RightAscensionDeclination correctForPrecession(double raHour, double raMinutes, double raSeconds,
+            double decDeg, double decMinutes, double decSeconds, double epoch1Day, int epoch1Month, int epoch1Year,
+            double epoch2Day, int epoch2Month, int epoch2Year) {
+        double ra1Rad = Math
+                .toRadians(Macros.degreeHoursToDecimalDegrees(Macros.hmsToDH(raHour, raMinutes, raSeconds)));
+        double dec1Rad = Math.toRadians(Macros.degreesMinutesSecondsToDecimalDegrees(decDeg, decMinutes, decSeconds));
+        double tCenturies = (Macros.civilDateToJulianDate(epoch1Day, epoch1Month, epoch1Year) - 2415020) / 36525;
+        double mSec = 3.07234 + (0.00186 * tCenturies);
+        double nArcsec = 20.0468 - (0.0085 * tCenturies);
+        double nYears = (Macros.civilDateToJulianDate(epoch2Day, epoch2Month, epoch2Year)
+                - Macros.civilDateToJulianDate(epoch1Day, epoch1Month, epoch1Year)) / 365.25;
+        double s1Hours = ((mSec + (nArcsec * Math.sin(ra1Rad) * Math.tan(dec1Rad) / 15)) * nYears) / 3600;
+        double ra2Hours = Macros.hmsToDH(raHour, raMinutes, raSeconds) + s1Hours;
+        double s2Deg = (nArcsec * Math.cos(ra1Rad) * nYears) / 3600;
+        double dec2Deg = Macros.degreesMinutesSecondsToDecimalDegrees(decDeg, decMinutes, decSeconds) + s2Deg;
+
+        int correctedRAHour = Macros.decimalHoursHour(ra2Hours);
+        int correctedRAMinutes = Macros.decimalHoursMinute(ra2Hours);
+        double correctedRASeconds = Macros.decimalHoursSecond(ra2Hours);
+        double correctedDecDeg = Macros.decimalDegreesDegrees(dec2Deg);
+        double correctedDecMinutes = Macros.decimalDegreesMinutes(dec2Deg);
+        double correctedDecSeconds = Macros.decimalDegreesSeconds(dec2Deg);
+
+        return new RightAscensionDeclination(correctedRAHour, correctedRAMinutes, correctedRASeconds, correctedDecDeg,
+                correctedDecMinutes, correctedDecSeconds);
+    }
+
+    /**
+     * Calculate nutation for two values: ecliptic longitude and obliquity, for a
+     * Greenwich date.
+     */
+    public Nutation nutationInEclipticLongitudeAndObliquity(double greenwichDay, int greenwichMonth,
+            int greenwichYear) {
+        double jdDays = Macros.civilDateToJulianDate(greenwichDay, greenwichMonth, greenwichYear);
+        double tCenturies = (jdDays - 2415020) / 36525;
+        double aDeg = 100.0021358 * tCenturies;
+        double l1Deg = 279.6967 + (0.000303 * tCenturies * tCenturies);
+        double lDeg1 = l1Deg + 360 * (aDeg - Math.floor(aDeg));
+        double lDeg2 = lDeg1 - 360 * Math.floor(lDeg1 / 360);
+        double lRad = Math.toRadians(lDeg2);
+        double bDeg = 5.372617 * tCenturies;
+        double nDeg1 = 259.1833 - 360 * (bDeg - Math.floor(bDeg));
+        double nDeg2 = nDeg1 - 360 * (Math.floor(nDeg1 / 360));
+        double nRad = Math.toRadians(nDeg2);
+        double nutInLongArcsec = -17.2 * Math.sin(nRad) - 1.3 * Math.sin(2 * lRad);
+        double nutInOblArcsec = 9.2 * Math.cos(nRad) + 0.5 * Math.cos(2 * lRad);
+
+        double nutInLongDeg = nutInLongArcsec / 3600;
+        double nutInOblDeg = nutInOblArcsec / 3600;
+
+        return new Nutation(nutInLongDeg, nutInOblDeg);
+    }
+
+    /**
+     * Correct ecliptic coordinates for the effects of aberration.
+     */
+    public Aberration correctForAberration(double utHour, double utMinutes, double utSeconds, double gwDay, int gwMonth,
+            int gwYear, double trueEclLongDeg, double trueEclLongMin, double trueEclLongSec, double trueEclLatDeg,
+            double trueEclLatMin, double trueEclLatSec) {
+        double trueLongDeg = Macros.degreesMinutesSecondsToDecimalDegrees(trueEclLongDeg, trueEclLongMin,
+                trueEclLongSec);
+        double trueLatDeg = Macros.degreesMinutesSecondsToDecimalDegrees(trueEclLatDeg, trueEclLatMin, trueEclLatSec);
+        double sunTrueLongDeg = Macros.sunLong(utHour, utMinutes, utSeconds, 0, 0, gwDay, gwMonth, gwYear);
+        double dlongArcsec = -20.5 * Math.cos(Math.toRadians(sunTrueLongDeg - trueLongDeg))
+                / Math.cos(Math.toRadians(trueLatDeg));
+        double dlatArcsec = -20.5 * Math.sin(Math.toRadians(sunTrueLongDeg - trueLongDeg))
+                * Math.sin(Math.toRadians(trueLatDeg));
+        double apparentLongDeg = trueLongDeg + (dlongArcsec / 3600);
+        double apparentLatDeg = trueLatDeg + (dlatArcsec / 3600);
+
+        double apparentEclLongDeg = Macros.decimalDegreesDegrees(apparentLongDeg);
+        double apparentEclLongMin = Macros.decimalDegreesMinutes(apparentLongDeg);
+        double apparentEclLongSec = Macros.decimalDegreesSeconds(apparentLongDeg);
+        double apparentEclLatDeg = Macros.decimalDegreesDegrees(apparentLatDeg);
+        double apparentEclLatMin = Macros.decimalDegreesMinutes(apparentLatDeg);
+        double apparentEclLatSec = Macros.decimalDegreesSeconds(apparentLatDeg);
+
+        return new Aberration(apparentEclLongDeg, apparentEclLongMin, apparentEclLongSec, apparentEclLatDeg,
+                apparentEclLatMin, apparentEclLatSec);
+    }
+
+    /**
+     * Calculate corrected RA/Dec, accounting for atmospheric refraction.
+     * 
+     * NOTE: Valid values for coordinate_type are "TRUE" and "APPARENT".
+     */
+    public RightAscensionDeclination atmosphericRefraction(double trueRAHour, double trueRAMin, double trueRASec,
+            double trueDecDeg, double trueDecMin, double trueDecSec, CoordinateType coordinateType, double geogLongDeg,
+            double geogLatDeg, int daylightSavingHours, int timezoneHours, double lcdDay, int lcdMonth, int lcdYear,
+            double lctHour, double lctMin, double lctSec, double atmosphericPressureMbar,
+            double atmosphericTemperatureCelsius) {
+        double haHour = Macros.rightAscensionToHourAngle(trueRAHour, trueRAMin, trueRASec, lctHour, lctMin, lctSec,
+                daylightSavingHours, timezoneHours, lcdDay, lcdMonth, lcdYear, geogLongDeg);
+        double azimuthDeg = Macros.equatorialCoordinatesToAzimuth(haHour, 0, 0, trueDecDeg, trueDecMin, trueDecSec,
+                geogLatDeg);
+        double altitudeDeg = Macros.equatorialCoordinatesToAltitude(haHour, 0, 0, trueDecDeg, trueDecMin, trueDecSec,
+                geogLatDeg);
+        double correctedAltitudeDeg = Macros.refract(altitudeDeg, coordinateType, atmosphericPressureMbar,
+                atmosphericTemperatureCelsius);
+
+        double correctedHAHour = Macros.horizonCoordinatesToHourAngle(azimuthDeg, 0, 0, correctedAltitudeDeg, 0, 0,
+                geogLatDeg);
+        double correctedRAHour1 = Macros.hourAngleToRightAscension(correctedHAHour, 0, 0, lctHour, lctMin, lctSec,
+                daylightSavingHours, timezoneHours, lcdDay, lcdMonth, lcdYear, geogLongDeg);
+        double correctedDecDeg1 = Macros.horizonCoordinatesToDeclination(azimuthDeg, 0, 0, correctedAltitudeDeg, 0, 0,
+                geogLatDeg);
+
+        int correctedRAHour = Macros.decimalHoursHour(correctedRAHour1);
+        int correctedRAMin = Macros.decimalHoursMinute(correctedRAHour1);
+        double correctedRASec = Macros.decimalHoursSecond(correctedRAHour1);
+        double correctedDecDeg = Macros.decimalDegreesDegrees(correctedDecDeg1);
+        double correctedDecMin = Macros.decimalDegreesMinutes(correctedDecDeg1);
+        double correctedDecSec = Macros.decimalDegreesSeconds(correctedDecDeg1);
+
+        return new RightAscensionDeclination(correctedRAHour, correctedRAMin, correctedRASec, correctedDecDeg,
+                correctedDecMin, correctedDecSec);
+    }
+
+    /**
+     * Calculate corrected RA/Dec, accounting for geocentric parallax.
+     */
+    public RightAscensionDeclination correctionsForGeocentricParallax(double raHour, double raMin, double raSec,
+            double decDeg, double decMin, double decSec, CoordinateType coordinateType, double equatorialHorParallaxDeg,
+            double geogLongDeg, double geogLatDeg, double heightM, int daylightSaving, int timezoneHours, double lcdDay,
+            int lcdMonth, int lcdYear, double lctHour, double lctMin, double lctSec) {
+        double haHours = Macros.rightAscensionToHourAngle(raHour, raMin, raSec, lctHour, lctMin, lctSec,
+                daylightSaving, timezoneHours, lcdDay, lcdMonth, lcdYear, geogLongDeg);
+
+        double correctedHAHours = Macros.parallaxHA(haHours, 0, 0, decDeg, decMin, decSec, coordinateType, geogLatDeg,
+                heightM, equatorialHorParallaxDeg);
+
+        double correctedRAHours = Macros.hourAngleToRightAscension(correctedHAHours, 0, 0, lctHour, lctMin, lctSec,
+                daylightSaving, timezoneHours, lcdDay, lcdMonth, lcdYear, geogLongDeg);
+
+        double correctedDecDeg1 = Macros.parallaxDec(haHours, 0, 0, decDeg, decMin, decSec, coordinateType,
+                geogLatDeg, heightM, equatorialHorParallaxDeg);
+
+        int correctedRAHour = Macros.decimalHoursHour(correctedRAHours);
+        int correctedRAMin = Macros.decimalHoursMinute(correctedRAHours);
+        double correctedRASec = Macros.decimalHoursSecond(correctedRAHours);
+        double correctedDecDeg = Macros.decimalDegreesDegrees(correctedDecDeg1);
+        double correctedDecMin = Macros.decimalDegreesMinutes(correctedDecDeg1);
+        double correctedDecSec = Macros.decimalDegreesSeconds(correctedDecDeg1);
+
+        return new RightAscensionDeclination(correctedRAHour, correctedRAMin, correctedRASec, correctedDecDeg,
+                correctedDecMin, correctedDecSec);
+    }
+
+    /**
+     * Calculate heliographic coordinates for a given Greenwich date, with a given
+     * heliographic position angle and heliographic displacement in arc minutes.
+     */
+    public HeliographicCoordinates heliographicCoordinates(double helioPositionAngleDeg, double helioDisplacementArcmin,
+            double gwdateDay, int gwdateMonth, int gwdateYear) {
+        double julianDateDays = Macros.civilDateToJulianDate(gwdateDay, gwdateMonth, gwdateYear);
+        double tCenturies = (julianDateDays - 2415020) / 36525;
+        double longAscNodeDeg = Macros.degreesMinutesSecondsToDecimalDegrees(74, 22, 0) + (84 * tCenturies / 60);
+        double sunLongDeg = Macros.sunLong(0, 0, 0, 0, 0, gwdateDay, gwdateMonth, gwdateYear);
+        double y = Math.sin(Math.toRadians(longAscNodeDeg - sunLongDeg))
+                * Math.cos(Math.toRadians(Macros.degreesMinutesSecondsToDecimalDegrees(7, 15, 0)));
+        double x = -Math.cos(Math.toRadians(longAscNodeDeg - sunLongDeg));
+        double aDeg = Macros.wToDegrees(Math.atan2(y, x));
+        double mDeg1 = 360 - (360 * (julianDateDays - 2398220) / 25.38);
+        double mDeg2 = mDeg1 - 360 * Math.floor(mDeg1 / 360);
+        double l0Deg1 = mDeg2 + aDeg;
+        double b0Rad = Math.asin(Math.sin(Math.toRadians(sunLongDeg - longAscNodeDeg))
+                * Math.sin(Math.toRadians(Macros.degreesMinutesSecondsToDecimalDegrees(7, 15, 0))));
+        double theta1Rad = Math.atan(-Math.cos(Math.toRadians(sunLongDeg))
+                * Math.tan(Math.toRadians(Macros.obliq(gwdateDay, gwdateMonth, gwdateYear))));
+        double theta2Rad = Math.atan(-Math.cos(Math.toRadians(longAscNodeDeg - sunLongDeg))
+                * Math.tan(Math.toRadians(Macros.degreesMinutesSecondsToDecimalDegrees(7, 15, 0))));
+        double pDeg = Macros.wToDegrees(theta1Rad + theta2Rad);
+        double rho1Deg = helioDisplacementArcmin / 60;
+        double rhoRad = Math.asin(2 * rho1Deg / Macros.sunDia(0, 0, 0, 0, 0, gwdateDay, gwdateMonth, gwdateYear))
+                - Math.toRadians(rho1Deg);
+        double bRad = Math.asin(Math.sin(b0Rad) * Math.cos(rhoRad)
+                + Math.cos(b0Rad) * Math.sin(rhoRad) * Math.cos(Math.toRadians(pDeg - helioPositionAngleDeg)));
+        double bDeg = Macros.wToDegrees(bRad);
+        double lDeg1 = Macros.wToDegrees(
+                Math.asin(Math.sin(rhoRad) * Math.sin(Math.toRadians(pDeg - helioPositionAngleDeg)) / Math.cos(bRad)))
+                + l0Deg1;
+        double lDeg2 = lDeg1 - 360 * Math.floor(lDeg1 / 360);
+
+        double helioLongDeg = Util.round(lDeg2, 2);
+        double helioLatDeg = Util.round(bDeg, 2);
+
+        return new HeliographicCoordinates(helioLongDeg, helioLatDeg);
+    }
+
+    /**
+     * Calculate carrington rotation number for a Greenwich date
+     */
+    public int carringtonRotationNumber(double gwdateDay, int gwdateMonth, int gwdateYear) {
+        double julianDateDays = Macros.civilDateToJulianDate(gwdateDay, gwdateMonth, gwdateYear);
+
+        int crn = 1690 + (int) Util.round((julianDateDays - 2444235.34) / 27.2753, 0);
+
+        return crn;
+    }
+
+    /**
+     * Calculate selenographic (lunar) coordinates (sub-Earth)
+     */
+    public SelenographicCoordinates1 selenographicCoordinates1(double gwdateDay, int gwdateMonth, int gwdateYear) {
+        double julianDateDays = Macros.civilDateToJulianDate(gwdateDay, gwdateMonth, gwdateYear);
+        double tCenturies = (julianDateDays - 2451545) / 36525;
+        double longAscNodeDeg = 125.044522 - 1934.136261 * tCenturies;
+        double f1 = 93.27191 + 483202.0175 * tCenturies;
+        double f2 = f1 - 360 * Math.floor(f1 / 360);
+        double geocentricMoonLongDeg = Macros.moonLong(0, 0, 0, 0, 0, gwdateDay, gwdateMonth, gwdateYear);
+        double geocentricMoonLatRad = Math
+                .toRadians(Macros.moonLat(0, 0, 0, 0, 0, gwdateDay, gwdateMonth, gwdateYear));
+        double inclinationRad = Math.toRadians(Macros.degreesMinutesSecondsToDecimalDegrees(1, 32, 32.7));
+        double nodeLongRad = Math.toRadians(longAscNodeDeg - geocentricMoonLongDeg);
+        double sinBe = -(Math.cos(inclinationRad)) * Math.sin(geocentricMoonLatRad)
+                + Math.sin(inclinationRad) * Math.cos(geocentricMoonLatRad) * Math.sin(nodeLongRad);
+        double subEarthLatDeg = Macros.wToDegrees(Math.asin(sinBe));
+        double aRad = Math.atan2(
+                (-Math.sin(geocentricMoonLatRad) * Math.sin(inclinationRad)
+                        - Math.cos(geocentricMoonLatRad) * Math.cos(inclinationRad) * Math.sin(nodeLongRad)),
+                (Math.cos(geocentricMoonLatRad) * Math.cos(nodeLongRad)));
+        double aDeg = Macros.wToDegrees(aRad);
+        double subEarthLongDeg1 = aDeg - f2;
+        double subEarthLongDeg2 = subEarthLongDeg1 - 360 * Math.floor(subEarthLongDeg1 / 360);
+        double subEarthLongDeg3 = (subEarthLongDeg2 > 180) ? subEarthLongDeg2 - 360 : subEarthLongDeg2;
+        double c1Rad = Math.atan(Math.cos(nodeLongRad) * Math.sin(inclinationRad)
+                / (Math.cos(geocentricMoonLatRad) * Math.cos(inclinationRad)
+                        + Math.sin(geocentricMoonLatRad) * Math.sin(inclinationRad) * Math.sin(nodeLongRad)));
+        double obliquityRad = Math.toRadians(Macros.obliq(gwdateDay, gwdateMonth, gwdateYear));
+        double c2Rad = Math.atan(Math.sin(obliquityRad) * Math.cos(Math.toRadians(geocentricMoonLongDeg))
+                / (Math.sin(obliquityRad) * Math.sin(geocentricMoonLatRad)
+                        * Math.sin(Math.toRadians(geocentricMoonLongDeg))
+                        - Math.cos(obliquityRad) * Math.cos(geocentricMoonLatRad)));
+        double cDeg = Macros.wToDegrees(c1Rad + c2Rad);
+
+        double subEarthLongitude = Util.round(subEarthLongDeg3, 2);
+        double subEarthLatitude = Util.round(subEarthLatDeg, 2);
+        double positionAngleOfPole = Util.round(cDeg, 2);
+
+        return new SelenographicCoordinates1(subEarthLongitude, subEarthLatitude, positionAngleOfPole);
+    }
+
+    /**
+     * Calculate selenographic (lunar) coordinates (sub-Solar)
+     */
+    public SelenographicCoordinates2 selenographicCoordinates2(double gwdateDay, int gwdateMonth, int gwdateYear) {
+        double julianDateDays = Macros.civilDateToJulianDate(gwdateDay, gwdateMonth, gwdateYear);
+        double tCenturies = (julianDateDays - 2451545) / 36525;
+        double longAscNodeDeg = 125.044522 - 1934.136261 * tCenturies;
+        double f1 = 93.27191 + 483202.0175 * tCenturies;
+        double f2 = f1 - 360 * Math.floor(f1 / 360);
+        double sunGeocentricLongDeg = Macros.sunLong(0, 0, 0, 0, 0, gwdateDay, gwdateMonth, gwdateYear);
+        double moonEquHorParallaxArcMin = Macros.moonHP(0, 0, 0, 0, 0, gwdateDay, gwdateMonth, gwdateYear) * 60;
+        double sunEarthDistAU = Macros.sunDist(0, 0, 0, 0, 0, gwdateDay, gwdateMonth, gwdateYear);
+        double geocentricMoonLatRad = Math
+                .toRadians(Macros.moonLat(0, 0, 0, 0, 0, gwdateDay, gwdateMonth, gwdateYear));
+        double geocentricMoonLongDeg = Macros.moonLong(0, 0, 0, 0, 0, gwdateDay, gwdateMonth, gwdateYear);
+        double adjustedMoonLongDeg = sunGeocentricLongDeg + 180
+                + (26.4 * Math.cos(geocentricMoonLatRad)
+                        * Math.sin(Math.toRadians(sunGeocentricLongDeg - geocentricMoonLongDeg))
+                        / (moonEquHorParallaxArcMin * sunEarthDistAU));
+        double adjustedMoonLatRad = 0.14666 * geocentricMoonLatRad / (moonEquHorParallaxArcMin * sunEarthDistAU);
+        double inclinationRad = Math.toRadians(Macros.degreesMinutesSecondsToDecimalDegrees(1, 32, 32.7));
+        double nodeLongRad = Math.toRadians((longAscNodeDeg - adjustedMoonLongDeg));
+        double sinBs = -Math.cos(inclinationRad) * Math.sin(adjustedMoonLatRad)
+                + Math.sin(inclinationRad) * Math.cos(adjustedMoonLatRad) * Math.sin(nodeLongRad);
+        double subSolarLatDeg = Macros.wToDegrees(Math.asin(sinBs));
+        double aRad = Math.atan2(
+                (-Math.sin(adjustedMoonLatRad) * Math.sin(inclinationRad)
+                        - Math.cos(adjustedMoonLatRad) * Math.cos(inclinationRad) * Math.sin(nodeLongRad)),
+                (Math.cos(adjustedMoonLatRad) * Math.cos(nodeLongRad)));
+        double aDeg = Macros.wToDegrees(aRad);
+        double subSolarLongDeg1 = aDeg - f2;
+        double subSolarLongDeg2 = subSolarLongDeg1 - 360 * Math.floor(subSolarLongDeg1 / 360);
+        double subSolarLongDeg3 = (subSolarLongDeg2 > 180) ? subSolarLongDeg2 - 360 : subSolarLongDeg2;
+        double subSolarColongDeg = 90 - subSolarLongDeg3;
+
+        double subSolarLongitude = Util.round(subSolarLongDeg3, 2);
+        double subSolarColongitude = Util.round(subSolarColongDeg, 2);
+        double subSolarLatitude = Util.round(subSolarLatDeg, 2);
+
+        return new SelenographicCoordinates2(subSolarLongitude, subSolarColongitude, subSolarLatitude);
+    }
+}

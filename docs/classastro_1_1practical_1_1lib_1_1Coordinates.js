@@ -1,0 +1,25 @@
+var classastro_1_1practical_1_1lib_1_1Coordinates =
+[
+    [ "angleBetweenTwoObjects", "classastro_1_1practical_1_1lib_1_1Coordinates.html#a7009b6cda9ceb094ab4cb63ac9e00816", null ],
+    [ "angleToDecimalDegrees", "classastro_1_1practical_1_1lib_1_1Coordinates.html#aa02ccfbc3e1fe1b58624427acefe4ea2", null ],
+    [ "atmosphericRefraction", "classastro_1_1practical_1_1lib_1_1Coordinates.html#a5100be61f814353c9dfd62000f07bb2b", null ],
+    [ "carringtonRotationNumber", "classastro_1_1practical_1_1lib_1_1Coordinates.html#a539bfcda499dfda32b24a925c2149ab1", null ],
+    [ "correctForAberration", "classastro_1_1practical_1_1lib_1_1Coordinates.html#a1724d0f6db0c7ecdeb0d17af18c8383e", null ],
+    [ "correctForPrecession", "classastro_1_1practical_1_1lib_1_1Coordinates.html#a0c8d4f7c3ff98cf7869e6eae907cabaf", null ],
+    [ "correctionsForGeocentricParallax", "classastro_1_1practical_1_1lib_1_1Coordinates.html#a00b55043de51e01f6b1544e821f6503a", null ],
+    [ "decimalDegreesToAngle", "classastro_1_1practical_1_1lib_1_1Coordinates.html#a00447028bb7e2390fbb676667dca5453", null ],
+    [ "eclipticCoordinateToEquatorialCoordinate", "classastro_1_1practical_1_1lib_1_1Coordinates.html#a5f54a5273355f679f6cde74ad6bc9e14", null ],
+    [ "equatorialCoordinatesToHorizonCoordinates", "classastro_1_1practical_1_1lib_1_1Coordinates.html#a68eea4feff65e3f0931a2c474e727b28", null ],
+    [ "equatorialCoordinateToEclipticCoordinate", "classastro_1_1practical_1_1lib_1_1Coordinates.html#a29cf00ad87a16c7196445b5437fcc957", null ],
+    [ "equatorialCoordinateToGalacticCoordinate", "classastro_1_1practical_1_1lib_1_1Coordinates.html#a9ce8c95b60c9886960a5ca4fd26b525b", null ],
+    [ "galacticCoordinateToEquatorialCoordinate", "classastro_1_1practical_1_1lib_1_1Coordinates.html#a6785fb42d9eb4fde7c79b213d9a541ca", null ],
+    [ "heliographicCoordinates", "classastro_1_1practical_1_1lib_1_1Coordinates.html#af76ca300ff74c945fd2d5d2462dfaa40", null ],
+    [ "horizonCoordinatesToEquatorialCoordinates", "classastro_1_1practical_1_1lib_1_1Coordinates.html#a101f30ce19018828cc771290335a694b", null ],
+    [ "hourAngleToRightAscension", "classastro_1_1practical_1_1lib_1_1Coordinates.html#a3c584d324750fc55fd58890837182319", null ],
+    [ "meanObliquityOfTheEcliptic", "classastro_1_1practical_1_1lib_1_1Coordinates.html#ac0d6d6d6b92bab079372766e04fee177", null ],
+    [ "nutationInEclipticLongitudeAndObliquity", "classastro_1_1practical_1_1lib_1_1Coordinates.html#a5bb6897b3878d2085ced03729982d7a0", null ],
+    [ "rightAscensionToHourAngle", "classastro_1_1practical_1_1lib_1_1Coordinates.html#a2e30d9722eb33997e46295b723b4bdd9", null ],
+    [ "risingAndSetting", "classastro_1_1practical_1_1lib_1_1Coordinates.html#a973b93d7a9737cdd4c84415b605d60f0", null ],
+    [ "selenographicCoordinates1", "classastro_1_1practical_1_1lib_1_1Coordinates.html#a696fa25fb193c0408632d337df29069b", null ],
+    [ "selenographicCoordinates2", "classastro_1_1practical_1_1lib_1_1Coordinates.html#a8da72cabe33e5fc081520d6623931cbe", null ]
+];
