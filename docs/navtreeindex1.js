@@ -1,9 +1,7 @@
 var NAVTREEINDEX1 =
 {
-"classastro_1_1practical_1_1lib_1_1Sun.html#a9a0bab5e1ca305f492bddd38947ba04c":[1,0,0,0,1,8,2],
-"classastro_1_1practical_1_1lib_1_1Sun.html#ac45d47b68addb88e7eb1fb1170803024":[1,0,0,0,1,8,1],
-"classastro_1_1practical_1_1lib_1_1Sun.html#ac764cd8516797ac21371b8c12fac25b5":[1,0,0,0,1,8,0],
-"classastro_1_1practical_1_1lib_1_1Util.html":[1,0,0,0,1,9],
+"classastro_1_1practical_1_1lib_1_1Sun.html#ac45d47b68addb88e7eb1fb1170803024":[1,0,0,0,1,7,1],
+"classastro_1_1practical_1_1lib_1_1Sun.html#ac764cd8516797ac21371b8c12fac25b5":[1,0,0,0,1,7,0],
 "classastro_1_1practical_1_1models_1_1Aberration.html":[1,0,0,0,2,1],
 "classastro_1_1practical_1_1models_1_1Aberration.html#a1ff58661f3f6d28fcfd2a17a4c151e37":[1,0,0,0,2,1,6],
 "classastro_1_1practical_1_1models_1_1Aberration.html#a45e774ddcd98bc96b28a7cff5b9ece64":[1,0,0,0,2,1,4],
@@ -249,5 +247,7 @@ var NAVTREEINDEX1 =
 "classastro_1_1practical_1_1models_1_1PlanetLongL4685.html#a30506dbffb6fb7641083ec5db1bab356":[1,0,0,0,2,40,2],
 "classastro_1_1practical_1_1models_1_1PlanetLongL4685.html#a97c697d45b754730ddf86b393802a427":[1,0,0,0,2,40,0],
 "classastro_1_1practical_1_1models_1_1PlanetLongL4685.html#acf57e14bcf72a813e62c1af503b1a4c0":[1,0,0,0,2,40,1],
-"classastro_1_1practical_1_1models_1_1PlanetLongL4735.html":[1,0,0,0,2,41]
+"classastro_1_1practical_1_1models_1_1PlanetLongL4735.html":[1,0,0,0,2,41],
+"classastro_1_1practical_1_1models_1_1PlanetLongL4735.html#a19a475fff1ed4dde719454583bea0382":[1,0,0,0,2,41,4],
+"classastro_1_1practical_1_1models_1_1PlanetLongL4735.html#a30506dbffb6fb7641083ec5db1bab356":[1,0,0,0,2,41,2]
 };

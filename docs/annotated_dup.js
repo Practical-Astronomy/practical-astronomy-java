@@ -14,11 +14,9 @@ var annotated_dup =
           [ "Coordinates", "classastro_1_1practical_1_1lib_1_1Coordinates.html", "classastro_1_1practical_1_1lib_1_1Coordinates" ],
           [ "DateTime", "classastro_1_1practical_1_1lib_1_1DateTime.html", "classastro_1_1practical_1_1lib_1_1DateTime" ],
           [ "Eclipses", "classastro_1_1practical_1_1lib_1_1Eclipses.html", "classastro_1_1practical_1_1lib_1_1Eclipses" ],
-          [ "Macros", "classastro_1_1practical_1_1lib_1_1Macros.html", null ],
           [ "Moon", "classastro_1_1practical_1_1lib_1_1Moon.html", "classastro_1_1practical_1_1lib_1_1Moon" ],
           [ "Planet", "classastro_1_1practical_1_1lib_1_1Planet.html", "classastro_1_1practical_1_1lib_1_1Planet" ],
-          [ "Sun", "classastro_1_1practical_1_1lib_1_1Sun.html", "classastro_1_1practical_1_1lib_1_1Sun" ],
-          [ "Util", "classastro_1_1practical_1_1lib_1_1Util.html", null ]
+          [ "Sun", "classastro_1_1practical_1_1lib_1_1Sun.html", "classastro_1_1practical_1_1lib_1_1Sun" ]
         ] ],
         [ "models", "namespaceastro_1_1practical_1_1models.html", [
           [ "data", "namespaceastro_1_1practical_1_1models_1_1data.html", [
@@ -91,6 +89,10 @@ var annotated_dup =
           [ "UniversalDateTime", "classastro_1_1practical_1_1models_1_1UniversalDateTime.html", "classastro_1_1practical_1_1models_1_1UniversalDateTime" ],
           [ "UniversalTime", "classastro_1_1practical_1_1models_1_1UniversalTime.html", "classastro_1_1practical_1_1models_1_1UniversalTime" ],
           [ "VisualAspectsOfAPlanet", "classastro_1_1practical_1_1models_1_1VisualAspectsOfAPlanet.html", "classastro_1_1practical_1_1models_1_1VisualAspectsOfAPlanet" ]
+        ] ],
+        [ "support", "namespaceastro_1_1practical_1_1support.html", [
+          [ "Macros", "classastro_1_1practical_1_1support_1_1Macros.html", null ],
+          [ "Util", "classastro_1_1practical_1_1support_1_1Util.html", null ]
         ] ],
         [ "types", "namespaceastro_1_1practical_1_1types.html", [
           [ "AccuracyLevel", "enumastro_1_1practical_1_1types_1_1AccuracyLevel.html", "enumastro_1_1practical_1_1types_1_1AccuracyLevel" ],

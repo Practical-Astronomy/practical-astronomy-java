@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Practical Astronomy Algorithms in Java: lib/src/main/java/astro/practical/lib/Util.java Source File</title>
+<title>Practical Astronomy Algorithms in Java: lib/src/main/java/astro/practical/support/Util.java Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -97,15 +97,15 @@ $(document).ready(function(){initNavTree('Util_8java_source.html',''); initResiz
   <div class="headertitle"><div class="title">Util.java</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="Util_8java.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="keyword">package </span>astro.practical.lib;</div>
+<a href="Util_8java.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="keyword">package </span>astro.practical.support;</div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">import</span> java.math.BigDecimal;</div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">import</span> java.math.RoundingMode;</div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
 <div class="foldopen" id="foldopen00006" data-start="{" data-end="};">
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="classastro_1_1practical_1_1lib_1_1Util.html">    6</a></span><span class="keyword">public</span> <span class="keyword">class </span><a class="code hl_class" href="classastro_1_1practical_1_1lib_1_1Util.html">Util</a> {</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="classastro_1_1practical_1_1support_1_1Util.html">    6</a></span><span class="keyword">public</span> <span class="keyword">class </span><a class="code hl_class" href="classastro_1_1practical_1_1support_1_1Util.html">Util</a> {</div>
 <div class="foldopen" id="foldopen00010" data-start="{" data-end="}">
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="classastro_1_1practical_1_1lib_1_1Util.html#a3af69cfbf5990d739a9ffc3cc489de89">   10</a></span>    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">double</span> <a class="code hl_function" href="classastro_1_1practical_1_1lib_1_1Util.html#a3af69cfbf5990d739a9ffc3cc489de89">round</a>(<span class="keywordtype">double</span> value, <span class="keywordtype">int</span> places) {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="classastro_1_1practical_1_1support_1_1Util.html#a3af69cfbf5990d739a9ffc3cc489de89">   10</a></span>    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">double</span> <a class="code hl_function" href="classastro_1_1practical_1_1support_1_1Util.html#a3af69cfbf5990d739a9ffc3cc489de89">round</a>(<span class="keywordtype">double</span> value, <span class="keywordtype">int</span> places) {</div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>        <span class="keywordflow">if</span> (places &lt; 0)</div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>            <span class="keywordflow">throw</span> <span class="keyword">new</span> IllegalArgumentException();</div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
@@ -116,7 +116,7 @@ $(document).ready(function(){initNavTree('Util_8java_source.html',''); initResiz
 </div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
 <div class="foldopen" id="foldopen00022" data-start="{" data-end="}">
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="classastro_1_1practical_1_1lib_1_1Util.html#a683bdf95f4d29a058558f9e9e010f539">   22</a></span>    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">boolean</span> <a class="code hl_function" href="classastro_1_1practical_1_1lib_1_1Util.html#a683bdf95f4d29a058558f9e9e010f539">isLeapYear</a>(<span class="keywordtype">int</span> inputYear) {</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="classastro_1_1practical_1_1support_1_1Util.html#a683bdf95f4d29a058558f9e9e010f539">   22</a></span>    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">boolean</span> <a class="code hl_function" href="classastro_1_1practical_1_1support_1_1Util.html#a683bdf95f4d29a058558f9e9e010f539">isLeapYear</a>(<span class="keywordtype">int</span> inputYear) {</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <span class="keywordtype">double</span> year = inputYear;</div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        <span class="keywordflow">if</span> (year % 4 == 0) {</div>
@@ -130,15 +130,15 @@ $(document).ready(function(){initNavTree('Util_8java_source.html',''); initResiz
 </div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>}</div>
 </div>
-<div class="ttc" id="aclassastro_1_1practical_1_1lib_1_1Util_html"><div class="ttname"><a href="classastro_1_1practical_1_1lib_1_1Util.html">astro.practical.lib.Util</a></div><div class="ttdef"><b>Definition</b> <a href="Util_8java_source.html#l00006">Util.java:6</a></div></div>
-<div class="ttc" id="aclassastro_1_1practical_1_1lib_1_1Util_html_a3af69cfbf5990d739a9ffc3cc489de89"><div class="ttname"><a href="classastro_1_1practical_1_1lib_1_1Util.html#a3af69cfbf5990d739a9ffc3cc489de89">astro.practical.lib.Util.round</a></div><div class="ttdeci">static double round(double value, int places)</div><div class="ttdef"><b>Definition</b> <a href="Util_8java_source.html#l00010">Util.java:10</a></div></div>
-<div class="ttc" id="aclassastro_1_1practical_1_1lib_1_1Util_html_a683bdf95f4d29a058558f9e9e010f539"><div class="ttname"><a href="classastro_1_1practical_1_1lib_1_1Util.html#a683bdf95f4d29a058558f9e9e010f539">astro.practical.lib.Util.isLeapYear</a></div><div class="ttdeci">static boolean isLeapYear(int inputYear)</div><div class="ttdef"><b>Definition</b> <a href="Util_8java_source.html#l00022">Util.java:22</a></div></div>
+<div class="ttc" id="aclassastro_1_1practical_1_1support_1_1Util_html"><div class="ttname"><a href="classastro_1_1practical_1_1support_1_1Util.html">astro.practical.support.Util</a></div><div class="ttdef"><b>Definition</b> <a href="Util_8java_source.html#l00006">Util.java:6</a></div></div>
+<div class="ttc" id="aclassastro_1_1practical_1_1support_1_1Util_html_a3af69cfbf5990d739a9ffc3cc489de89"><div class="ttname"><a href="classastro_1_1practical_1_1support_1_1Util.html#a3af69cfbf5990d739a9ffc3cc489de89">astro.practical.support.Util.round</a></div><div class="ttdeci">static double round(double value, int places)</div><div class="ttdef"><b>Definition</b> <a href="Util_8java_source.html#l00010">Util.java:10</a></div></div>
+<div class="ttc" id="aclassastro_1_1practical_1_1support_1_1Util_html_a683bdf95f4d29a058558f9e9e010f539"><div class="ttname"><a href="classastro_1_1practical_1_1support_1_1Util.html#a683bdf95f4d29a058558f9e9e010f539">astro.practical.support.Util.isLeapYear</a></div><div class="ttdeci">static boolean isLeapYear(int inputYear)</div><div class="ttdef"><b>Definition</b> <a href="Util_8java_source.html#l00022">Util.java:22</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_97aefd0d527b934f1d99a682da8fe6a9.html">lib</a></li><li class="navelem"><a class="el" href="dir_a065c5f60305fee3569f887679366939.html">src</a></li><li class="navelem"><a class="el" href="dir_afca9c55e9e48967f0566bf17f8d106a.html">main</a></li><li class="navelem"><a class="el" href="dir_3499caf828d842d8c9a5df6b96f0bbd5.html">java</a></li><li class="navelem"><a class="el" href="dir_fdb06a1a637b81d402c3c38c74ed4a78.html">astro</a></li><li class="navelem"><a class="el" href="dir_be01a129fe6ba2b771d5032f2a146242.html">practical</a></li><li class="navelem"><a class="el" href="dir_87e50faa8bc852b3703dde8cb011e2f8.html">lib</a></li><li class="navelem"><a class="el" href="Util_8java.html">Util.java</a></li>
+    <li class="navelem"><a class="el" href="dir_97aefd0d527b934f1d99a682da8fe6a9.html">lib</a></li><li class="navelem"><a class="el" href="dir_a065c5f60305fee3569f887679366939.html">src</a></li><li class="navelem"><a class="el" href="dir_afca9c55e9e48967f0566bf17f8d106a.html">main</a></li><li class="navelem"><a class="el" href="dir_3499caf828d842d8c9a5df6b96f0bbd5.html">java</a></li><li class="navelem"><a class="el" href="dir_fdb06a1a637b81d402c3c38c74ed4a78.html">astro</a></li><li class="navelem"><a class="el" href="dir_be01a129fe6ba2b771d5032f2a146242.html">practical</a></li><li class="navelem"><a class="el" href="dir_f62d365c4b116d54fc8f38cce7641397.html">support</a></li><li class="navelem"><a class="el" href="Util_8java.html">Util.java</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>

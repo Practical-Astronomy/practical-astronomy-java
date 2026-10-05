@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['macros_0',['Macros',['../classastro_1_1practical_1_1lib_1_1Macros.html',1,'astro::practical::lib']]],
+  ['macros_0',['Macros',['../classastro_1_1practical_1_1support_1_1Macros.html',1,'astro::practical::support']]],
   ['moon_1',['Moon',['../classastro_1_1practical_1_1lib_1_1Moon.html',1,'astro::practical::lib']]],
   ['moonazl6700_2',['MoonAzL6700',['../classastro_1_1practical_1_1models_1_1MoonAzL6700.html',1,'astro::practical::models']]],
   ['moondistangdiamhorparallax_3',['MoonDistAngDiamHorParallax',['../classastro_1_1practical_1_1models_1_1MoonDistAngDiamHorParallax.html',1,'astro::practical::models']]],

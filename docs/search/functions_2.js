@@ -4,7 +4,7 @@ var searchData=
   ['civildate_1',['CivilDate',['../classastro_1_1practical_1_1models_1_1CivilDate.html#a524ebd187a2f9eb64a0d9761851bfcde',1,'astro::practical::models::CivilDate']]],
   ['civildatetime_2',['CivilDateTime',['../classastro_1_1practical_1_1models_1_1CivilDateTime.html#a08dafe7d62a70a38e333f9a49ff1c132',1,'astro::practical::models::CivilDateTime']]],
   ['civildatetodaynumber_3',['civilDateToDayNumber',['../classastro_1_1practical_1_1lib_1_1DateTime.html#a26ab91b6edf90dfaf547266d59a8b3b8',1,'astro::practical::lib::DateTime']]],
-  ['civildatetojuliandate_4',['civilDateToJulianDate',['../classastro_1_1practical_1_1lib_1_1Macros.html#a7d664294ec8964eba672c83957d59dea',1,'astro::practical::lib::Macros']]],
+  ['civildatetojuliandate_4',['civilDateToJulianDate',['../classastro_1_1practical_1_1support_1_1Macros.html#a7d664294ec8964eba672c83957d59dea',1,'astro::practical::support::Macros']]],
   ['civiltime_5',['CivilTime',['../classastro_1_1practical_1_1models_1_1CivilTime.html#a37ded520a593590917dbbf9e06c0f395',1,'astro::practical::models::CivilTime']]],
   ['civiltimetodecimalhours_6',['civilTimeToDecimalHours',['../classastro_1_1practical_1_1lib_1_1DateTime.html#a78342888d4774484fc53b4b5b1ac5d6e',1,'astro::practical::lib::DateTime']]],
   ['cometdataelliptical_7',['CometDataElliptical',['../classastro_1_1practical_1_1models_1_1data_1_1CometDataElliptical.html#a9afe65cddec2340baed56ab6e65f5b55',1,'astro::practical::models::data::CometDataElliptical']]],

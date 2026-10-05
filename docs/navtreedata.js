@@ -47,9 +47,9 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "Aberration_8java.html",
-"classastro_1_1practical_1_1lib_1_1Sun.html#a9a0bab5e1ca305f492bddd38947ba04c",
-"classastro_1_1practical_1_1models_1_1PlanetLongL4735.html#a19a475fff1ed4dde719454583bea0382",
-"enumastro_1_1practical_1_1types_1_1RiseSetStatus.html"
+"classastro_1_1practical_1_1lib_1_1Sun.html#ac45d47b68addb88e7eb1fb1170803024",
+"classastro_1_1practical_1_1models_1_1PlanetLongL4735.html#a95fcc75bbbc31a59a4472fed8347d2a8",
+"enumastro_1_1practical_1_1types_1_1EclipseOccurrence.html#af08e14766c60c963337e70cc2143d953"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -39,7 +39,7 @@ var hierarchy =
     [ "L3710Twilight", "classastro_1_1practical_1_1models_1_1L3710Twilight.html", null ],
     [ "LunarEclipseCircumstances", "classastro_1_1practical_1_1models_1_1LunarEclipseCircumstances.html", null ],
     [ "LunarEclipseOccurrenceDetails", "classastro_1_1practical_1_1models_1_1LunarEclipseOccurrenceDetails.html", null ],
-    [ "Macros", "classastro_1_1practical_1_1lib_1_1Macros.html", null ],
+    [ "Macros", "classastro_1_1practical_1_1support_1_1Macros.html", null ],
     [ "Moon", "classastro_1_1practical_1_1lib_1_1Moon.html", null ],
     [ "MoonAzL6700", "classastro_1_1practical_1_1models_1_1MoonAzL6700.html", null ],
     [ "MoonDistAngDiamHorParallax", "classastro_1_1practical_1_1models_1_1MoonDistAngDiamHorParallax.html", null ],
@@ -92,7 +92,7 @@ var hierarchy =
     [ "TimesOfNewMoonAndFullMoon", "classastro_1_1practical_1_1models_1_1TimesOfNewMoonAndFullMoon.html", null ],
     [ "TwilightStatus", "enumastro_1_1practical_1_1types_1_1TwilightStatus.html", null ],
     [ "TwilightType", "enumastro_1_1practical_1_1types_1_1TwilightType.html", null ],
-    [ "Util", "classastro_1_1practical_1_1lib_1_1Util.html", null ],
+    [ "Util", "classastro_1_1practical_1_1support_1_1Util.html", null ],
     [ "VisualAspectsOfAPlanet", "classastro_1_1practical_1_1models_1_1VisualAspectsOfAPlanet.html", null ],
     [ "WarningFlag", "enumastro_1_1practical_1_1types_1_1WarningFlag.html", null ]
 ];
