@@ -5,6 +5,8 @@ import astro.practical.models.MorningAndEveningTwilight;
 import astro.practical.models.PositionOfSun;
 import astro.practical.models.SunDistanceAndAngularSize;
 import astro.practical.models.SunriseAndSunset;
+import astro.practical.support.Macros;
+import astro.practical.support.Util;
 import astro.practical.types.AngleMeasure;
 import astro.practical.types.RiseSetStatus;
 import astro.practical.types.TwilightStatus;

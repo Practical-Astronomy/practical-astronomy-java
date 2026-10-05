@@ -15,6 +15,8 @@ import astro.practical.models.RightAscensionDeclination;
 import astro.practical.models.RiseSet;
 import astro.practical.models.SelenographicCoordinates1;
 import astro.practical.models.SelenographicCoordinates2;
+import astro.practical.support.Macros;
+import astro.practical.support.Util;
 import astro.practical.types.AngleMeasure;
 import astro.practical.types.CoordinateType;
 import astro.practical.types.RiseSetStatus;

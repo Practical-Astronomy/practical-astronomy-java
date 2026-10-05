@@ -3,6 +3,8 @@ package astro.practical.lib;
 import astro.practical.data.BinaryInfo;
 import astro.practical.models.BinaryStarOrbit;
 import astro.practical.models.data.BinaryData;
+import astro.practical.support.Macros;
+import astro.practical.support.Util;
 
 public class Binary {
     /**

@@ -5,6 +5,8 @@ import astro.practical.models.PlanetCoordinates;
 import astro.practical.models.PlanetPosition;
 import astro.practical.models.VisualAspectsOfAPlanet;
 import astro.practical.models.data.PlanetData;
+import astro.practical.support.Macros;
+import astro.practical.support.Util;
 
 public class Planet {
     /**

@@ -7,6 +7,8 @@ import astro.practical.models.PositionOfEllipticalComet;
 import astro.practical.models.PositionOfParabolicComet;
 import astro.practical.models.data.CometDataElliptical;
 import astro.practical.models.data.CometDataParabolic;
+import astro.practical.support.Macros;
+import astro.practical.support.Util;
 
 public class Comet {
     /**

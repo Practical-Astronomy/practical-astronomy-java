@@ -1,4 +1,4 @@
-package astro.practical.lib;
+package astro.practical.support;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

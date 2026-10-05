@@ -7,6 +7,8 @@ import astro.practical.models.GreenwichSiderealTime;
 import astro.practical.models.LocalSiderealTime;
 import astro.practical.models.UniversalDateTime;
 import astro.practical.models.UniversalTime;
+import astro.practical.support.Macros;
+import astro.practical.support.Util;
 import astro.practical.types.WarningFlag;
 
 public class DateTime {

@@ -4,6 +4,8 @@ import astro.practical.models.LunarEclipseCircumstances;
 import astro.practical.models.LunarEclipseOccurrenceDetails;
 import astro.practical.models.SolarEclipseCircumstances;
 import astro.practical.models.SolarEclipseOccurrence;
+import astro.practical.support.Macros;
+import astro.practical.support.Util;
 import astro.practical.types.EclipseOccurrence;
 
 public class Eclipses {

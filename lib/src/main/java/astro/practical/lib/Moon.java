@@ -8,6 +8,8 @@ import astro.practical.models.MoonPhase;
 import astro.practical.models.MoonriseAndMoonset;
 import astro.practical.models.PrecisePositionOfMoon;
 import astro.practical.models.TimesOfNewMoonAndFullMoon;
+import astro.practical.support.Macros;
+import astro.practical.support.Util;
 import astro.practical.types.AccuracyLevel;
 
 public class Moon {
